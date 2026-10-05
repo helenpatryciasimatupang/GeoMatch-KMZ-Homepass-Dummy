@@ -76,8 +76,3 @@ async def filter_file(
         media_type="application/vnd.google-earth.kmz",
         filename="filtered_area.kmz"
     )
-
-
-fastapi
-uvicorn
-python-multipart
