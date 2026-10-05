@@ -1,1 +1,0 @@
-GeoMatch KMZ tanpa penyimpanan server. Upload KMZ dan TXT, proses langsung di browser.
