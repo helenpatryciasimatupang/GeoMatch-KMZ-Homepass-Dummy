@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Pencocok nomor rumah dummy dengan titik Placemark pada file KMZ, berjalan sepenuhnya di browser." />
+  <title>KMZ Dummy House Checker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <span class="eyebrow">KMZ TOOL • CLIENT-SIDE</span>
+        <h1>Dummy House <span>KMZ Checker</span></h1>
+        <p>Cocokkan nomor rumah dummy dengan Placemark di KMZ, temukan data yang hilang/tambahan, lalu unduh KMZ bersih. Semua proses berjalan di perangkat Anda.</p>
+      </div>
+      <div class="privacy-badge" title="File tidak dikirim ke server">
+        <span class="dot"></span>
+        Tanpa backend
+      </div>
+    </header>
+
+    <section class="grid input-grid">
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <div class="step">01</div>
+            <h2>Upload KMZ</h2>
+          </div>
+          <button id="clearFileBtn" class="btn ghost small" type="button" disabled>Hapus</button>
+        </div>
+        <label id="dropZone" class="drop-zone" for="kmzFile">
+          <input id="kmzFile" type="file" accept=".kmz,application/vnd.google-earth.kmz,application/zip" hidden />
+          <div class="upload-icon">↑</div>
+          <strong id="fileTitle">Tarik file KMZ ke sini</strong>
+          <span id="fileMeta">atau klik untuk memilih file</span>
+        </label>
+        <div id="fileWarning" class="notice warning hidden"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <div class="step">02</div>
+            <h2>Nomor Rumah Dummy</h2>
+          </div>
+          <button id="resetListBtn" class="btn ghost small" type="button">Reset 97 data</button>
+        </div>
+        <textarea id="dummyInput" spellcheck="false" aria-label="Daftar nomor rumah dummy"></textarea>
+        <div class="input-foot">
+          <span>Format fleksibel: satu per baris, tabel, atau teks yang mengandung <code>?-123</code>.</span>
+          <strong id="dummyCount">0 unik</strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="action-row">
+      <label class="check-line">
+        <input id="pruneAssets" type="checkbox" checked />
+        <span>Hapus foto <code>files/</code> yang tidak lagi direferensikan titik terpilih</span>
+      </label>
+      <button id="processBtn" class="btn primary" type="button" disabled>
+        <span>Proses KMZ</span>
+        <span class="arrow">→</span>
+      </button>
+    </section>
+
+    <section id="statusPanel" class="status-panel hidden" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <div>
+        <strong id="statusTitle">Memproses…</strong>
+        <span id="statusText">Membaca file KMZ.</span>
+      </div>
+    </section>
+
+    <section id="results" class="hidden">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">HASIL PERBANDINGAN</span>
+          <h2>Ringkasan</h2>
+        </div>
+        <div class="result-actions">
+          <button id="csvBtn" class="btn secondary" type="button">Unduh CSV</button>
+          <button id="downloadBtn" class="btn primary" type="button">Unduh KMZ Bersih</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <article class="stat">
+          <span>Dummy unik</span>
+          <strong id="statDummy">0</strong>
+          <small>target dari daftar</small>
+        </article>
+        <article class="stat success">
+          <span>Ada di KMZ</span>
+          <strong id="statFound">0</strong>
+          <small id="statFoundPct">0%</small>
+        </article>
+        <article class="stat danger">
+          <span>Tidak ada</span>
+          <strong id="statMissing">0</strong>
+          <small>perlu dicek</small>
+        </article>
+        <article class="stat warning">
+          <span>Tambahan KMZ</span>
+          <strong id="statExtra">0</strong>
+          <small>di luar daftar dummy</small>
+        </article>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Hasil pencocokan">
+        <button class="tab active" data-tab="found" type="button">Ada <span id="tabFoundCount">0</span></button>
+        <button class="tab" data-tab="missing" type="button">Tidak Ada <span id="tabMissingCount">0</span></button>
+        <button class="tab" data-tab="extra" type="button">Tambahan <span id="tabExtraCount">0</span></button>
+        <button class="tab" data-tab="all" type="button">Semua KMZ <span id="tabAllCount">0</span></button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:72px">No.</th>
+              <th>Label Placemark</th>
+              <th style="width:180px">Status</th>
+            </tr>
+          </thead>
+          <tbody id="resultBody"></tbody>
+        </table>
+        <div id="emptyState" class="empty hidden">Tidak ada data pada kategori ini.</div>
+      </div>
+
+      <div id="diagnostics" class="diagnostics hidden"></div>
+    </section>
+
+    <footer>
+      <p>Berjalan langsung di browser • Tidak mengunggah KMZ ke server • Cocok untuk GitHub Pages</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
