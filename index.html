@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GeoMatch KMZ Cleaner</title>
+<style>
+body{font-family:Arial;padding:40px;background:#f4f4f4}
+.box{background:white;padding:30px;border-radius:10px;max-width:600px}
+button{padding:10px 20px;background:#1677ff;color:white;border:0}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>GeoMatch KMZ Cleaner</h1>
+<p>Upload KMZ</p>
+<input id="kmz" type="file" accept=".kmz">
+<p>Upload nomor dummy TXT/CSV</p>
+<input id="dummy" type="file" accept=".txt,.csv">
+<br><br>
+<button onclick="processKMZ()">PROCESS KMZ</button>
+<p id="status"></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
